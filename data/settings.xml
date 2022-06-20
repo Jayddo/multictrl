@@ -3,13 +3,12 @@
     <global>
 		<avatar>ramuh</avatar>
 		<indi>refresh</indi>
-		<char1></char1>
-		<char2></char2>
-		<char3></char3>
-		<char4></char4>
-		<char5></char5>
-		<char6></char6>
-		<antisleep>true</antisleep>
+		<char1>Keaddo</char1>
+		<char2>Pomodora</char2>
+		<char3>Frullata</char3>
+		<char4>Nuvola</char4>
+		<char5>Granita</char5>
+		<char6>Panettone</char6>
         <send_all_delay>0.83</send_all_delay>
     </global>
 </settings>
