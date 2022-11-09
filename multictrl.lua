@@ -1438,7 +1438,7 @@ function jc(cmd2)
 		elseif player_job.name == "" ..settings.char3.. "" then
 			windower.send_command("jc pld/blu" )
 		elseif player_job.name == "" ..settings.char4.. "" then
-			windower.send_command("jc whm/rdm")
+			windower.send_command("jc brd/whm")
 		elseif player_job.name == "" ..settings.char5.. "" then
 			windower.send_command("jc whm/sch")
 		elseif player_job.name == "" ..settings.char6.. "" then
