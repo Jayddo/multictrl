@@ -619,6 +619,24 @@ function stage(cmd2)
 		end
         settings.autows = true
 		windower.send_command('ai off; chatter on;')
+	elseif cmd2 == 'kcp' or cmd2 == 'kml' then
+		atc('[Stage]: Mastering Levels!')
+		windower.send_command('input /autotarget off;wait 0.5')
+		windower.send_command('unload jazero;wait 0.5')
+		windower.send_command('lua reload autoassist;wait 0.5')
+		if player_job.main_job == 'WHM' then
+			windower.send_command('hb debuff slow; hb debuff paralyze; hb buff <me> boost-str; hb buff <me> auspice; hb buff <me> regen4;')
+        elseif player_job.main_job == 'GEO' then
+			windower.send_command('hb debuff dia2; gs c autoentrust refresh;')
+		elseif player_job.main_job == 'BRD' then
+			windower.send_command('lua load singer; wait 0.5; sing pl melee; wait 0.5; gs c set weapons DualNaegling; gs c autows Savage Blade')
+		elseif player_job.main_job =='PLD' then
+			windower.send_command('gs c set weapons NaeglingBlurred; gs c autows Savage Blade;wait 0.5;gs c set hybridmode normal')
+		elseif player_job.main_job == 'COR' then
+			windower.send_command('roller roll1 corsair; roller roll2 sam;wait 0.5;gs c set weapons DualSavage;gs c autows Savage Blade;')
+		end
+        settings.autows = true
+		windower.send_command('ai off; chatter on;')
 	elseif cmd2 == 'eboss' then
 		atc('[Stage]: Sortie - E Boss [Dhartok/Gartell] -[STONE]- MB')
 		if player_job.main_job == 'SCH' and player_job.sub_job == 'RDM' then
@@ -1746,7 +1764,7 @@ function jc(cmd2)
 	elseif cmd2 == 'kdyna' then
 		atc('[JC] Dynamis W3')
 		if player_job.name == "" ..settings.char1.. "" then
-			windower.send_command("jc sam/drg;" )
+			windower.send_command("jc blu/drg;" )
 		elseif player_job.name == "" ..settings.char2.. "" then
 			windower.send_command("jc thf/war" )
 		elseif player_job.name == "" ..settings.char3.. "" then
