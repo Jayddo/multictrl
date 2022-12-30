@@ -612,6 +612,22 @@ function stage(cmd2)
 		end
         settings.autows = true
 		windower.send_command('ai off; chatter on;')
+	elseif cmd2 == 'kambu' then
+			atc('[Stage]: Ambu')
+			windower.send_command('gaze ap on')
+			if player_job.main_job == 'BRD' then
+				windower.send_command('wait 3; sing pl melee; sing ballad 1 '..tank_char_name)
+			elseif player_job.main_job == 'RDM' then
+				windower.send_command('mc buffall haste2; hb buff '..tank_char_name..' refresh3; dmain; hb f off')
+			elseif player_job.main_job == 'WHM' then
+				windower.send_command('hb buff ' ..tank_char_name.. ' regen4;hb buff '..tank_char_name ' barblizzara')
+			elseif player_job.main_job == 'COR' then
+				windower.send_command('gs c set weapons DualSavage;roller roll1 chaos; roller roll2 sam')
+			elseif player_job.main_job == 'GEO' then
+				windower.send_command('hb debuff dia2; gs c autoindi fury; gs c autogeo frailty; gs c autoentrust precision')
+			end
+			settings.autows = true
+			windower.send_command('input /autotarget on')
 	elseif cmd2 == 'kcp' or cmd2 == 'kml' then
 		atc('[Stage]: Mastering Levels!')
 		windower.send_command('input /autotarget off;wait 0.5')
@@ -1497,6 +1513,21 @@ function jc(cmd2)
 			windower.send_command("jc rdm/blm")
 		elseif player_job.name == "" ..settings.char6.. "" then
 			windower.send_command("jc geo/whm")
+		end
+	elseif cmd2 == 'kambu' then
+		atc('[JC] Odyssey C farm.')
+		if player_job.name == "" ..settings.char1.. "" then
+			windower.send_command("jc blu/drg" )
+		elseif player_job.name == "" ..settings.char2.. "" then
+			windower.send_command("jc geo/whm" )
+		elseif player_job.name == "" ..settings.char3.. "" then
+			windower.send_command("jc pld/blu" )
+		elseif player_job.name == "" ..settings.char4.. "" then
+			windower.send_command("jc brd/whm")
+		elseif player_job.name == "" ..settings.char5.. "" then
+			windower.send_command("jc whm/blm")
+		elseif player_job.name == "" ..settings.char6.. "" then
+			windower.send_command("jc cor/nin")
 		end
 	elseif cmd2 == 'ody' then
 		atc('[JC] Odyssey C farm.')
