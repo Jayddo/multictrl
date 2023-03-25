@@ -127,6 +127,8 @@ orb_state = false
 orb_entered = false
 player_leader = ''
 
+__helix_timer = 0
+
 function handle_addon_command(input, ...)
 	local cmd
     if input ~= nil then
@@ -905,12 +907,12 @@ function cc(mob_index)
 		end
 	end
 	
-	if mob and not (player.target_locked) and spell_to_cast then
+	if mob and spell_to_cast then --and not (player.target_locked)  then
 		atcwarn("[CC]: "..spell_to_cast.." -> "..mob.name)
 		windower.send_command('input /ma \"'..spell_to_cast..'\" ' .. mob.id)
-	elseif spell_to_cast and not (player.target_locked) then
-		atcwarn("[CC]: "..spell_to_cast)
-		windower.send_command('input /ma \"'..spell_to_cast..'\" <t>')
+	-- elseif spell_to_cast and player.target_locked then
+		-- atcwarn("[CC]: "..spell_to_cast)
+		-- windower.send_command('input /ma \"'..spell_to_cast..'\" <t>')
 	else
 		atcwarn("[CC]: No proper spell to cast due to JOB combo.")
 	end
@@ -928,10 +930,10 @@ function dispelga(mob_index)
 		return
 	end
 	
-	if mob and not (player.target_locked) then
+	if mob then --and not (player.target_locked) then
 		windower.send_command("input /ma 'Dispelga " .. mob.id)
-	else
-		windower.send_command("input /ma 'Dispelga' <t>")
+	-- else
+		-- windower.send_command("input /ma 'Dispelga' <t>")
 	end
 end
 
@@ -948,17 +950,17 @@ function fin(mob_index)
         
 	if player.main_job == "BRD" then
 		atcwarn("[FIN]: Finale")
-		if mob and not (player.target_locked) then
+		if mob then --and not (player.target_locked) then
 			windower.send_command("input /ma 'Magic Finale' " .. mob.id)
-		else
-			windower.send_command("input /ma 'Magic Finale' <t>")
+		-- else
+			-- windower.send_command("input /ma 'Magic Finale' <t>")
 		end
 	elseif player.main_job == "RDM" or player.sub_job == "RDM" then
 		atcwarn("[FIN]: Dispel")
-		if mob and not (player.target_locked) then
+		if mob then --and not (player.target_locked) then
 			windower.send_command("input /ma 'Dispel " .. mob.id)
-		else
-			windower.send_command("input /ma 'Dispel' <t>")
+		-- else
+			-- windower.send_command("input /ma 'Dispel' <t>")
 		end
 	end
 
@@ -1324,6 +1326,14 @@ function sch(cmd2)
 			atc('SCH Stance: Nuking')
 			autoarts='Dark'
 			windower.send_command('gs c set autoarts dark; hb disable cure; hb disable curaga; hb disable na; wait 2; gs c set autobuffmode Nuking')
+		elseif cmd2 == 'rebuff' then
+			atc('SCH Rebuff')
+			windower.send_command('gs c set autoarts off; hb disable cure; hb disable curaga; hb disable na; gs c set autobuffmode off;')
+			coroutine.sleep(1.8)
+			windower.send_command('input /ja "Tabula Rasa" <me>; wait 1.8; input /ja "Light Arts" <me>; wait 1.8; input /ja "Accession" <me>; wait 1.8; input /ja "Perpetuance" <me>; wait 1.8; regen5 me')
+			windower.send_command:schedule(13.0, 'input /ja "Penury" <me>; wait 1.8; input /ja "Accession" <me>; wait 1.8; input /ja "Perpetuance" <me>; wait 1.8; embrava me')
+			windower.send_command:schedule(25.0, 'input /ja "Perpetuance" <me>; wait 1.6; regen5 '..find_job_charname('RUN'))
+			windower.send_command:schedule(32.0, 'input /ja "Penury" <me>; wait 1.8; input /ja "Perpetuance" <me>; wait 1.8; embrava '..find_job_charname('RUN'))
 		else
 			atc('SCH Stance: No parameter specified')
 		end
@@ -1333,12 +1343,14 @@ function sch(cmd2)
 end
 
 function turnaround()
-	windower.send_command('gaze ap off')
-	local target = windower.ffxi.get_mob_by_target('t')
-	local self_vector = windower.ffxi.get_mob_by_id(player.id)
-	local angle = (math.atan2((target.y - self_vector.y), (target.x - self_vector.x))*180/math.pi)*-1
-	coroutine.sleep(0.6)
-	windower.ffxi.turn((getAngle()+180):radian()+math.pi)
+	if not( player.main_job == 'PLD' or player.main_job == 'RUN') then
+		windower.send_command('gaze ap off')
+		local target = windower.ffxi.get_mob_by_target('t')
+		local self_vector = windower.ffxi.get_mob_by_id(player.id)
+		local angle = (math.atan2((target.y - self_vector.y), (target.x - self_vector.x))*180/math.pi)*-1
+		coroutine.sleep(0.6)
+		windower.ffxi.turn((getAngle()+180):radian()+math.pi)
+	end
 	--windower.ffxi.turn:schedule(3.3,((angle):radian()))
 end
 
@@ -2249,16 +2261,14 @@ function autosc(cmd2, leader_char)
 	
 	local autosc_jobs = S{'COR','SCH','BLM','RUN','BRD','RDM','GEO'}
 
-	if cmd2 == nil then
-		if settings.autosc then
-			atc('Helper for Auto SC DISABLED')
-			settings.autosc = false
-		else
-			atc('Helper for Auto SC ACTIVE')
-			settings.autosc = true
-		end
+	local autosc_cmd = cmd2 and cmd2:lower() or (settings.autosc and 'off' or 'on')
+	if S{'off'}:contains(autosc_cmd) then
+		atc('Helper for Auto SC DISABLED')
+		settings.autosc = false
+	elseif S{'on'}:contains(autosc_cmd) then
+		atc('Helper for Auto SC ACTIVE')
+		settings.autosc = true
 	end
-	
 	
 	if settings.autosc then
 		if autosc_jobs:contains(player.main_job) then
@@ -2330,24 +2340,21 @@ function autosc(cmd2, leader_char)
 					if abil_recasts[116] < latency then
 						windower.send_command('gs c set autobuffmode off; gs c set autotankmode off; gs c set autorunemode off')
 						windower.send_command:schedule(3.1, 'input /ja "Gambit" <t>')
-						windower.send_command:schedule(4.2, 'gs c set autobuffmode auto; gs c set autotankmode on; gs c set autorunemode on')
+						--windower.send_command:schedule(4.2, 'gs c set autobuffmode auto; gs c set autotankmode on; gs c set autorunemode on')
 					elseif abil_recasts[119] < latency then
 						windower.send_command('gs c set autobuffmode off; gs c set autotankmode off; gs c set autorunemode off')
 						windower.send_command:schedule(3.1, 'input /ja "Rayke" <t>')
-						windower.send_command:schedule(4.2, 'gs c set autobuffmode auto; gs c set autotankmode on; gs c set autorunemode on')
-					elseif abil_recasts[25] < latency then
-						windower.send_command:schedule(5.1, 'input /ja "Lunge" <t>')
+						--windower.send_command:schedule(4.2, 'gs c set autobuffmode auto; gs c set autotankmode on; gs c set autorunemode on')
 					end
-					windower.send_command:schedule(8.0,'gs c set autobuffmode off; gs c set autotankmode off; gs c set autorunemode off')
+					--windower.send_command:schedule(8.0,'gs c set autobuffmode off; gs c set autotankmode off; gs c set autorunemode off')
 					windower.send_command:schedule(11.0, 'input /ws "Steel Cyclone" <t>')
 					windower.send_command:schedule(12.0, 'gs c set autobuffmode auto; gs c set autotankmode on; gs c set autorunemode on')
 				elseif player.main_job == 'COR' then
 					atc('[AUTOSC] COR Leaden and Earth Shot')
-
 					local abil_recasts = windower.ffxi.get_ability_recasts()
 					local latency = 0.7
 					if abil_recasts[195] < latency then
-						windower.send_command:schedule(1.7, 'gs c set elementalmode Earth; gs c elemental quickdraw Ongo')
+						windower.send_command:schedule(1.5, 'gs c set elementalmode Earth; gs c elemental quickdraw Ongo')
 					end
 					windower.send_command:schedule(3.3, 'input /ws "Leaden Salute" <t>')
 					windower.send_command:schedule(6.9, 'autora start')
@@ -2356,12 +2363,42 @@ function autosc(cmd2, leader_char)
 				
 				elseif player.main_job == 'BLM' then
 					atc('[AUTOSC] BLM Nuke')
+					local abil_recasts = windower.ffxi.get_ability_recasts()
+					local latency = 0.7
 					windower.send_command('gs c set elementalmode earth; gs c set autobuffmode off')
 					windower.send_command:schedule(2.9, 'gs c elemental aja Ongo')
-					windower.send_command:schedule(7.3, 'gs c elemental nuke Ongo')
-					windower.send_command:schedule(12.7, 'gs c elemental nuke Ongo')
-					windower.send_command:schedule(18.1, 'gs c elemental nuke Ongo')
-					windower.send_command:schedule(20.0, 'gs c set autobuffmode auto')
+					windower.send_command:schedule(7.8, 'gs c elemental nuke Ongo')
+					windower.send_command:schedule(13.2, 'gs c elemental nuke Ongo')
+					if abil_recasts[35] < latency then
+						windower.send_command:schedule(18.1, 'gs c elemental impact Ongo')
+					else
+						windower.send_command:schedule(18.1, 'gs c elemental nuke Ongo')
+					end
+					if abil_recasts[38] < latency then
+						windower.send_command:schedule(20.5, 'gs c elemental burn Ongo')
+					end
+					windower.send_command:schedule(22.0, 'gs c set autobuffmode auto')
+				elseif player.main_job == 'SCH' then
+					atc('[AUTOSC] SCH Nuke')
+					local nuke_target = windower.ffxi.get_mob_by_name('Ongo').id
+					windower.send_command('gs c set elementalmode earth; gs c set autobuffmode off; hb disable cure; hb mincure 4')
+					if (os.clock()-__helix_timer) > 300 or haveBuff('Tablua Rasa') then
+						__helix_timer = os.clock()
+						windower.send_command:schedule(3.2, 'gs c elemental helix Ongo ')
+					else
+						windower.send_command:schedule(4.1, 'gs c elemental nuke Ongo')
+					end
+					windower.send_command:schedule(9.6, 'gs c elemental nuke Ongo')
+					windower.send_command:schedule(14.0, 'gs c elemental nuke Ongo')
+					windower.send_command:schedule(19.0, 'gs c elemental nuke Ongo')
+					windower.send_command:schedule(21.5, 'gs c set autobuffmode nuking; hb enable cure;')
+				elseif player.main_job == 'GEO' then
+					atc('[AUTOSC] GEO Nuke')
+					windower.send_command('gs c set elementalmode earth;')
+					windower.send_command:schedule(5.4, 'gs c elemental nuke Ongo')
+					windower.send_command:schedule(10.3, 'gs c elemental nuke Ongo')
+					windower.send_command:schedule(17.0, 'gs c elemental nuke Ongo')
+					windower.send_command:schedule(21.8, 'gs c elemental nuke Ongo')
 				end
 			--Sortie 4 Step: Aeolian Edge x4.
 			elseif cmd2 and cmd2:lower() == 'aeolian' then
@@ -2372,6 +2409,15 @@ function autosc(cmd2, leader_char)
 				elseif player.main_job == 'BRD' then
 					windower.send_command:schedule(3.9, 'input /ws "Aeolian Edge" <t>')
 					windower.send_command:schedule(11.6, 'input /ws "Aeolian Edge" <t>')
+				end
+			elseif cmd2 and cmd2:lower() == '4step' then
+				windower.send_command('gs c set autobuffmode off; gs c set autowsmode off')
+				if player.main_job == 'DRK' then
+					windower.send_command:schedule(0.2, 'input /ws "Herculean Slash" <t>')
+					windower.send_command:schedule(8.1, 'input /ws "Herculean Slash" <t>')
+				elseif player.main_job == 'COR' then
+					windower.send_command:schedule(3.9, 'input /ws "Savage Blade" <t>')
+					windower.send_command:schedule(11.6, 'input /ws "Savage Blade" <t>')
 				end
 			--Sortie E/F/G Boss
 			elseif (cmd2 and cmd2:lower() == 'fire') or (cmd2 and cmd2:lower() == 'ice') or (cmd2 and cmd2:lower() == 'earth') or (cmd2 and cmd2:lower() == 'wind') or (cmd2 and cmd2:lower() == 'lightning') then
@@ -2568,30 +2614,6 @@ function attackon()
 	end
 end
 
--- function get(cmd2)
-	-- if not (get_map[zone_id]) then
-		-- atc('[GET] Not in an listed zone, cancelling.')
-		-- return
-	-- end
-	
-	-- if not cmd2 then atc('[GET] No parameter, cancelling.'); return end
-
-	-- if haveBuff('Invisible') then
-		-- windower.send_command('cancel invisible')
-		-- coroutine.sleep(2.0)
-	-- end
-	
-	-- local possible_npc = find_npc_to_poke("get")
-	-- if possible_npc and get_poke_check_index(possible_npc.index) then
-		-- if (get_map[zone_id].name[possible_npc.name].cmd) then
-			-- atc("[GET] - "..get_map[zone_id].name[possible_npc.name].cmd[cmd2].description)
-			-- keypress_cmd(get_map[zone_id].name[possible_npc.name].cmd[cmd2].entry_command)
-		-- end
-	-- else
-		-- atc("[GET] No NPC's nearby to poke, cancelling.")
-	-- end	
--- end
-
 function get(cmd2)
 	local ki_count = 0
 	local ki_max = 0
@@ -2720,6 +2742,17 @@ function basic_keys(cmd)
 	keypress_cmd(basic_key_sequence[cmd].command)
 end
 
+function CheckItemInInventory(item_name)
+	local bag_id = 0
+	local item_id = res.items:with('en', item_name:capitalize()).id
+	for item, index in T(windower.ffxi.get_items(bag_id)):it() do
+		if type(item) == 'table' and item.id == item_id then
+			return true
+		end
+	end
+	return false
+end
+
 function cleanup()
 	local items = S{'Tropical Crepe','Grape Daifuku','Rolan. Daifuku','Om. Sandwich','Pluton case','Pluton box','Boulder case','Boulder box','Beitetsu parcel','Beitetsu box','Abdhaljs Seal',}
 	local meds = S{'Echo Drops','Holy Water','Remedy','Panacea','Reraiser','Hi-Reraiser','Super Reraiser','Instant Reraise','Scapegoat','Silent Oil','Prism Powder','El. Pachira Fruit'}
@@ -2727,42 +2760,45 @@ function cleanup()
     
     --get
 	for k,v in pairs(items) do
-        if k:contains('case') or k:contains('box') or k:contains('parcel') then
+        if (k:contains('case') or k:contains('box') or k:contains('parcel')) and CheckItemInInventory(k) then
             windower.send_command('get "' ..k.. '" 600')
             coroutine.sleep(0.5)
-        else
+        elseif CheckItemInInventory(k) then
             windower.send_command('get "' ..k.. '" 600')
             coroutine.sleep(0.5)
         end
 	end
     
+	coroutine.sleep(1.5)
     --put
     for k,v in pairs(items) do
-        if k:contains('case') or k:contains('box') or k:contains('parcel') then
+        if (k:contains('case') or k:contains('box') or k:contains('parcel')) then
             windower.send_command('put "' ..k.. '" case 600')
             coroutine.sleep(0.5)
-        else
+        elseif CheckItemInInventory(k) then
             windower.send_command('put "' ..k.. '" sack 600')
             coroutine.sleep(0.5)
         end
 	end
 	
+	--get
 	for k,v in pairs(meds) do
-        if k:contains('case') or k:contains('box') or k:contains('parcel') then
+        if (k:contains('case') or k:contains('box') or k:contains('parcel')) and CheckItemInInventory(k) then
             windower.send_command('get "' ..k.. '" 600')
             coroutine.sleep(0.5)
-        else
+        elseif CheckItemInInventory(k) then
             windower.send_command('get "' ..k.. '" 600')
             coroutine.sleep(0.5)
         end
 	end
     
+	coroutine.sleep(1.5)
     --put
     for k,v in pairs(meds) do
-        if k:contains('case') or k:contains('box') or k:contains('parcel') then
+        if (k:contains('case') or k:contains('box') or k:contains('parcel')) then
             windower.send_command('put "' ..k.. '" case 600')
             coroutine.sleep(0.5)
-        else
+        elseif CheckItemInInventory(k) then
             windower.send_command('put "' ..k.. '" sack 600')
             coroutine.sleep(0.5)
         end
@@ -3706,18 +3742,6 @@ function getAngle(index)
     return math.floor(angleInDegrees * mult + 0.5) / mult
 end
 
-function poke_npc(npc,target_index)
-	if npc and target_index then
-		local packet = packets.new('outgoing', 0x01A, {
-			["Target"]=npc,
-			["Target Index"]=target_index,
-			["Category"]=0,
-			["Param"]=0,
-			["_unknown1"]=0})
-		packets.inject(packet)
-	end
-end
-
 -- Credit to partyhints
 function set_registry(id, job_id)
     if not id then return false end
@@ -3802,6 +3826,18 @@ function find_missing_ki(ki_table)
 		end
 	end
 	return found_ki
+end
+
+function poke_npc(npc,target_index)
+	if npc and target_index then
+		local packet = packets.new('outgoing', 0x01A, {
+			["Target"]=npc,
+			["Target Index"]=target_index,
+			["Category"]=0,
+			["Param"]=0,
+			["_unknown1"]=0})
+		packets.inject(packet)
+	end
 end
 
 function send_packet(parsed, options, delay)
