@@ -24,11 +24,27 @@ wsall_data = {
 }
 
 wstype_data = {
-	['WAR'] = {wsgroup={}},
+	['WAR'] = {wsgroup={
+		['kslash'] = {
+			['NON']='gs c set weapons Naegling; gs c autows Savage Blade; gs c autows tp 1000',
+		},
+		['kpierce'] = {
+			['NON']='gs c set weapons ShiningOne; gs c autows Impulse Drive; gs c autows tp 1000',
+		},
+		['kblunt'] = {
+			['NON']='gs c set weapons Lexotic; gs c autows Judgment; gs c autows tp 1692',
+		},
+	}},
 	['MNK'] = {wsgroup={}},
 	['WHM'] = {wsgroup={}},
 	['BLM'] = {wsgroup={}},
-	['RDM'] = {wsgroup={}},
+	['RDM'] = {wsgroup={
+		['kslash'] = {
+			['NIN']='gs c set weapons DualSavagebhron; gs c autows Savage Blade',
+			['DNC']='gs c set weapons DualSavagebhron; gs c autows Savage Blade',
+			['NON']='gs c set weapons Naegling; gs c autows Savage Blade',
+		},
+	}},
 	['THF'] = {wsgroup={}},
 	['PLD'] = {wsgroup={}},
 	['DRK'] = {wsgroup={}},
@@ -54,6 +70,12 @@ wstype_data = {
 		['slash'] = {
 			['NON']='gs c set weapons Masamune; gs c autows Tachi: Fudo',
 		},
+		['kslash'] = {
+			['NON']='gs c set weapons Masamune; gs c autows Tachi: Fudo',
+		},
+		['kpierce'] = {
+			['NON']='gs c set weapons ShiningOne; gs c autows Impulse Drive',
+		},
 		['hybrid'] = {
 			['NON']='gs c set weapons Dojikiri; gs c autows Tachi: Jinpu',
 		},
@@ -62,9 +84,26 @@ wstype_data = {
 		},
 	}},
 	['NIN'] = {wsgroup={}},
-	['DRG'] = {wsgroup={}},
+	['DRG'] = {wsgroup={
+		['kslash'] = {
+			['NON']='gs c set weapons Naegling; gs c autows Savage Blade',
+		},
+	}},
 	['SMN'] = {wsgroup={}},
-	['BLU'] = {wsgroup={}},
+	['BLU'] = {wsgroup={
+		['savage'] = {
+			['NON'] ='gs c set weapons NaegThib; gs c autows Savage Blade',
+		},
+		['kslash'] = {
+			['NON']='gs c set weapons TizThib; gs c autows Expiacion',
+		},
+		['kpierce'] = {
+			['NON']='gs c set weapons TizThib; gs c autows Expiacion',
+		},
+		['kblunt'] = {
+			['NON']='gs c set weapons Magic; gs c autows Black Halo',
+		},
+	}},
 	['COR'] = {wsgroup={
 		['leaden'] = {
 			['NIN']='gs c set weapons DualLeaden; gs c autows Leaden Salute',
@@ -86,12 +125,27 @@ wstype_data = {
 			['DNC']='gs c set weapons DualSavage; gs c autows Savage Blade',
 			['NON']='gs c set weapons Naegling; gs c autows Savage Blade',
 		},
+		['kslash'] = {
+			['NIN']='gs c set weapons DualSavage; gs c autows Savage Blade',
+			['DNC']='gs c set weapons DualSavage; gs c autows Savage Blade',
+			['NON']='gs c set weapons Naegling; gs c autows Savage Blade',
+		},
 		['pierce'] = {
 			['NIN']='gs c set weapons DualLastStand; gs c autows Last Stand',
 			['DNC']='gs c set weapons DualLastStand; gs c autows Last Stand',
 			['NON']='gs c set weapons Fomalhaut; gs c autows Last Stand',
 		},
+		['kpierce'] = {
+			['NIN']='gs c set weapons DualLastStand; gs c autows Last Stand',
+			['DNC']='gs c set weapons DualLastStand; gs c autows Last Stand',
+			['NON']='gs c set weapons Fomalhaut; gs c autows Last Stand',
+		},
 		['blunt'] = {
+			['NIN']='gs c set weapons DualWildfire; gs c autows Wildfire',
+			['DNC']='gs c set weapons DualWildfire; gs c autows Wildfire',
+			['NON']='gs c set weapons Armageddon; gs c autows Wildfire',
+		},
+		['wildfire'] = {
 			['NIN']='gs c set weapons DualWildfire; gs c autows Wildfire',
 			['DNC']='gs c set weapons DualWildfire; gs c autows Wildfire',
 			['NON']='gs c set weapons Armageddon; gs c autows Wildfire',
@@ -179,6 +233,10 @@ job_change_data = {
 	['procne'] = {name='Procne Clear', char1 = 'war/rdm', char2 = 'pld/rdm', char3 = 'drg/rdm', char4 = 'brd/rdm', char5 = 'rdm/whm', char6 = 'cor/rdm',},
 	['henwen'] = {name='Henwen Clear', char1 = 'pld/rdm', char2 = 'mnk/rdm', char3 = 'war/rdm', char4 = 'brd/rdm', char5 = 'rdm/whm', char6 = 'cor/rdm',},
 	['gige'] = {name='Gigelorum Clear', char1 = 'run/rdm', char2 = 'mnk/rdm', char3 = 'war/rdm', char4 = 'brd/rdm', char5 = 'rdm/whm', char6 = 'cor/rdm',},
+	['kody'] = {name='Odyssey and Sortie', char1 = 'sam/drg', char2 = 'war/drg', char3 = 'pld/blu', char4 = 'brd/nin', char5 = 'whm/sch', char6 = 'cor/nin',},
+	['kml'] = {name='Exp and ML', char1 = 'run/rdm', char2 = 'mnk/rdm', char3 = 'war/rdm', char4 = 'brd/rdm', char5 = 'rdm/whm', char6 = 'cor/rdm',},
+	['kdyna'] = {name='Dynamis D', char1 = 'blu/drg', char2 = 'thf/war', char3 = 'pld/blu', char4 = 'brd/whm', char5 = 'whm/sch', char6 = 'cor/nin',},
+
 }
 
 stage_data = {
@@ -200,6 +258,16 @@ stage_data = {
 		['GEO'] = {	action={'hb debuff dia2; gs c autoentrust refresh;'}},
 		['COR'] = {	action={'gs c set weapons DualSavage; roll roll1 exp; roll roll2 sam;'}},
 		['ALL'] = {	commands = 'ai off; chatter on;', mc_settings = {autows=true}},
+	}},
+	['kml'] = { jobs = {
+		['WHM'] = {	action={'hb debuff slow,paralyze; hb buff <me> boost-str,auspice,regen4;'}},
+		['SCH'] = {	action={'schheal; hb buff <me> regen5;'}},
+		['BRD'] = {	action={'wait 1; sing pl melee; gs c set weapons DualNaegling; gs c autows Savage Blade,',
+					'wait 1.5; sing ballad 1 GEO; sing ballad 1 RDM; sing ballad 1 SCH;'}},
+		['GEO'] = {	action={'hb debuff dia2; gs c autoentrust refresh;'}},
+		['PLD'] = { action={'gs c set weapons NaeglingBlurred; gs c autows Savage Blade;wait 0.5;gs c set hybridmode normal'}},
+		['COR'] = {	action={'gs c set weapons DualSavage; roll roll1 exp; roll roll2 sam;'}},
+		['ALL'] = {	commands = 'ai off; chatter on; unload jazero;', mc_settings = {autows=true}},
 	}},
 	['exp'] = { jobs = {
 		['BRD'] = {	action={'wait 2.5; sing n off; sing pl mage'}},
@@ -635,6 +703,35 @@ stage_data = {
 		['COR'] = {	action={'roll melee; gs c set weapons Naegling;'}},
 		['ALL'] = {	commands = 'gaze ap on;', mc_settings = {autows=true}},
 	}},
+	['kdyna'] = { jobs = {
+		['ALL'] = {	commands = 'input /autotarget off; hb unignore_debuff all defense down,slow,addle,inhibit tp,plague,dia,bio', mc_settings = {autows=true,autosub='off'}},
+		['RDM'] = {	action={'mc buffall haste2; wait 1.0; mc buffall shell5; wait 1.0; hb buff me enthunder; hb buffjob tank refresh3,protect5,shell5; hb mincure 4; hb aoe on;',
+					'hb buffjob GEO refresh3; dvolte; gs c set weapons Crocea; gs c autows Seraph Blade; hb buffjob SAM refresh3,windstorm;'}, food='Rolan. Daifuku'},
+		['PLD'] = {	action={'hb as off; hb f off;input /autotarget on;'}, food='Om. Sandwich'},
+		['BRD'] = {	action={'wait 1; gs c set treasuremode tag; hb minwaltz 3; gs c weapons DualCarn; sing pl ballad; sing n off; sing p on; sing d on; hb debuff wind threnody II; sing debuff carnage elegy; gs c set autozergmode off;',
+					'wait 1.5; sing ballad 1 GEO; sing ballad 1 RDM;',
+					'wait 1.5; sing sirvente tank; sing ballad 1 tank',}, food='Grape Daifuku'},
+		['SAM'] = {	action={'aa assist PLD;wait 0.5;aa on;,'}, food='Grape Daifuku'},
+		['BLU'] = {	action={'aa assist PLD;wait 0.5;aa on;,'}, food='Grape Daifuku'},
+		['WAR'] = {	action={'aa assist PLD;wait 0.5;aa on;,'}, food='Grape Daifuku'},
+		['THF'] = {	action={'aa assist PLD; gs c set HybridMode DT;wait 0.5;aa on;'}, food='Grape Daifuku'},
+		['COR'] = {	action={'aa assist PLD; gs c set HybridMode DT; gs c set weapons DualWildfire; gs c autows Wildfire; roller roll1 hunter;roller roll2 sam;wait 0.5;aa on;'}, food='Grape Daifuku'},
+	}},
+	['kwave3'] = { jobs = {
+		['ALL'] = {	commands = 'autofood'},
+		['PLD'] = {	action={'input /autotarget off;'}, food='Om. Sandwich'},
+	}},
+	['kody'] = { jobs = {
+		['WHM'] = {	action={'wait 1.5; gaze ap off; hb buffjob SAM haste;hb buffjob WAR haste; hb buffjob PLD haste; hb buffjob COR haste; hb buffjob tank regen4; hb ignore_debuff all poison'}, food='Maringna'},
+		['RUN'] = {	action={'wait 1.5; gaze ap off; gs c set runeelement sulpor; hb mincure 4;'}, food='Om. Sandwich'},
+		['PLD'] = {	action={'wait 1.5; gaze ap off; gs c set weapons NaegChain;wait 0.5; input /autotarget on; gs c toggle autotankmode;hb mincure 3;'}, food='Om. Sandwich'},
+		['BRD'] = {	action={'wait 2.5; sing d off; gaze ap on; gs c set weapons DualNaegling; sing pl melee; sing n off; sing p on; sing ballad 1 WHM; hb buffjob;aa assist PLD; wait 0.5; aa on'}, food='Grape Daifuku'},
+		['SAM'] = {	action={'wait 1.5; gaze ap on;'}, food='Grape Daifuku'},
+		['WAR'] = {	action={'wait 1.5; gaze ap on; gs c set weapons Naegling;aa assist PLD; wait 0.5;aa on'}, food='Grape Daifuku'},
+		['COR'] = {	action={'wait 1.5; roll melee; gaze ap on; gs c autows Leaden Salute;gs c set weapons DualLeadenMele; aa assist PLD;wait 0.5;aa on'}, food='Grape Daifuku'},
+		['ALL'] = {	commands = 'lua r gazecheck; input /autotarget on', mc_settings = {autows=true}},
+	}},
+
 
 }
 
