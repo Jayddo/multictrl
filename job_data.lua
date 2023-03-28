@@ -721,7 +721,7 @@ stage_data = {
 					'wait 1.5; sing ballad 1 GEO; sing ballad 1 RDM;',
 					'wait 1.5; sing sirvente tank; sing ballad 1 tank',}, food='Grape Daifuku'},
 		['SAM'] = {	action={'aa assist PLD;wait 0.5;aa on;,'}, food='Grape Daifuku'},
-		['BLU'] = {	action={'aa assist PLD;wait 0.5;aa on;,'}, food='Grape Daifuku'},
+		['BLU'] = {	action={'aa assist PLD;wait 0.5;aa on;gs c set offensemode acc;,'}, food='Grape Daifuku'},
 		['WAR'] = {	action={'aa assist PLD;wait 0.5;aa on;,'}, food='Grape Daifuku'},
 		['THF'] = {	action={'aa assist PLD; gs c set HybridMode DT;wait 0.5;aa on;'}, food='Grape Daifuku'},
 		['COR'] = {	action={'aa assist PLD; gs c set HybridMode DT; gs c set weapons DualWildfire; gs c autows Wildfire; roller roll1 hunter;roller roll2 sam;wait 0.5;aa on;'}, food='Grape Daifuku'},
