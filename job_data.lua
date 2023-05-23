@@ -826,9 +826,10 @@ stage_data = {
 		['RDM'] = {	action={'mc buffall haste2; wait 1.0; mc buffall shell5; wait 1.0; hb buff me enthunder; hb buffjob tank refresh3,protect5,shell5; hb mincure 4; hb aoe on;',
 					'hb buffjob GEO refresh3; dvolte; gs c set weapons Crocea; gs c autows Seraph Blade; hb buffjob SAM refresh3,windstorm;'}, food='Rolan. Daifuku'},
 		['PLD'] = {	action={'hb as off; hb f off;input /autotarget on;'}, food='Om. Sandwich'},
-		['BRD'] = {	action={'wait 1; gs c set treasuremode tag; hb minwaltz 3; gs c weapons DualCarn; sing pl ballad; sing n off; sing p on; sing d on; hb debuff wind threnody II; sing debuff carnage elegy; gs c set autozergmode off;',
-					'wait 1.5; sing ballad 1 GEO; sing ballad 1 RDM;',
-					'wait 1.5; sing sirvente Frullata; sing ballad 1 Frullata;hb buff Frullata haste;',}, food='Grape Daifuku'},
+		['BRD'] = {	action={'wait 1; gs c set treasuremode tag; hb minwaltz 3; gs c weapons DualCarn; sing pl melee; sing n off; sing p on; sing d on; hb debuff wind threnody II; sing debuff carnage elegy; gs c set autozergmode off;',
+					--'wait 1.5; sing ballad 1 GEO; sing ballad 1 RDM;',
+					--'wait 1.5; sing sirvente Frullata; sing ballad 1 Frullata;hb buff Frullata haste;'
+					}, food='Grape Daifuku'},
 		['SAM'] = {	action={'aa assist Frullata;wait 0.5;aa on;,'}, food='Grape Daifuku'},
 		['BLU'] = {	action={'aa assist Frullata;wait 0.5;aa on;gs c set offensemode acc;hb buff BLU Occultation,'}, food='Grape Daifuku'},
 		['WAR'] = {	action={'aa assist Frullata;wait 0.5;aa on;,'}, food='Grape Daifuku'},
